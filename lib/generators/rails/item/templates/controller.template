@@ -5,6 +5,7 @@ class <%= @mpc %>Controller < ApplicationController
 
   <% if @index %> 
   def index
+    @<%= @mu %> = <%= @mc %>.new
   <% if @current_user %> 
     @<%= @mpu %> = current_user.<%= @mpu %>
   <% else %> 
@@ -39,7 +40,7 @@ class <%= @mpc %>Controller < ApplicationController
     @<%= @mu %>.user = current_user
     <% end %> 
     if @<%= @mu %>.save
-      redirect_to @<%= @mu %>
+      redirect_to :action => :index
     else
       render :new
     end

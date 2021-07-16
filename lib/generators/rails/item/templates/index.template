@@ -4,7 +4,7 @@
 .container-fluid
   .row
     = render "layouts/control_sidebar"
-    %main.col-md-9.ml-sm-auto.col-lg-10.p-3{:role => "main"}
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
       - content_for :card_header do
         %h5
           = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
@@ -19,13 +19,16 @@
             上传表格
           <% end %>
 
-          = link_to "/#{controller_name}/new", :class => "button  button-small pull-right button-primary mr-1" do
+          -#
+            = link_to "/#{controller_name}/new", :class => "button  button-small pull-right button-primary mr-1" do
+              = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+          %button.button.button-primary.button-small.pull-right.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
             = fa_icon "plus", text: Setting.systems.btn_new, right: false 
       - content_for :card_body do
         .container-fluid
           .row
             .col-md-12
-              %table.text-center.table-striped.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable"}
+              %table.text-center.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable"}
                 %thead
                   %tr
                     %th{:scope => "col"} #
@@ -46,7 +49,7 @@
                         .container-fluid
                           .row.justify-content-center
                             = link_to "编辑", edit_<%= @mu %>_path(<%= @mu %>), :class => "button button-highlight button-small mr-1" 
-                            = link_to "详细",  <%= @mu %>_path(<%= @mu %>), :class => "button button-primary button-small mr-1" 
+                            = link_to "详情",  <%= @mu %>_path(<%= @mu %>), :class => "button button-primary button-small mr-1" 
                             = link_to "删除",  <%= @mu  %>, :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "button button-caution button-small" 
       = render "layouts/bootstrap/card"
 
@@ -71,4 +74,15 @@
           .form-group.row
             .col-8
               = submit_tag '保存', :class => "btn btn-primary btn-parse-submit " 
+<% end %>
+
+<% if @upload %>
+#newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} x 
+      .modal-body
+        = render 'form'
 <% end %>

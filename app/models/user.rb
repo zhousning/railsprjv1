@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :stocks
   has_many :retrievals
   has_many :projects
+  has_many :dogs
 
   belongs_to :role
 
