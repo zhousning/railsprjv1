@@ -42,9 +42,10 @@ mysetting:
     form: 表单
     js: js
     scss: scss
-    download: 下载表格 
+    download: 下载表格
     upload: 上传解析表格
     admin: 添加到后台
+    current_user: current_user
   natures: &8
     label: ''
     name: 英文属性名
@@ -1483,6 +1484,9 @@ development:
     selected: selected
     completed: completed
     canceled: canceled
+  dogs:
+    label: 狗
+    name: 姓名
 test:
   admins: *105
   users: *106

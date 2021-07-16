@@ -23,4 +23,7 @@ class <%= @mc %> < ActiveRecord::Base
   has_one :<%= relate_arr[1] %>
 <% end %>
 <% end %>
+<% if @current_user %>
+  belongs_to :user
+<% end %>
 end

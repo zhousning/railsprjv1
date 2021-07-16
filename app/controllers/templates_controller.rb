@@ -88,6 +88,7 @@ class TemplatesController < ApplicationController
            "-c " + @template.scss.to_s + " " +
            "-s " + @template.upload.to_s + " " +
            "-f " + @template.download.to_s + " " +
+           "-cu " + @template.current_user.to_s + " " +
            "-a " + @template.admin.to_s + " "
     
     unless @template.one_image.blank?
@@ -143,7 +144,7 @@ class TemplatesController < ApplicationController
 
   private
     def template_params
-      params.require(:template).permit( :name, :cn_name, :nest, :image, :one_image, :one_attachment, :attachment, :index, :new, :edit, :show, :form, :js, :scss, :upload, :download, :admin, nests_attributes: nest_params, natures_attributes: nature_params, relates_attributes: relate_params)
+      params.require(:template).permit( :name, :cn_name, :nest, :image, :one_image, :one_attachment, :attachment, :index, :new, :edit, :show, :form, :js, :scss, :upload, :download, :admin, :current_user, nests_attributes: nest_params, natures_attributes: nature_params, relates_attributes: relate_params)
     end
   
     def nature_params

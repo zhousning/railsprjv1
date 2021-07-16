@@ -18,6 +18,7 @@ class CreateTemplates < ActiveRecord::Migration
       t.boolean :download
       t.boolean :scss
       t.boolean :admin
+      t.boolean :current_user
 
       t.timestamps null: false
     end

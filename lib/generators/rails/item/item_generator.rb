@@ -30,6 +30,8 @@ class Rails::ItemGenerator < Rails::Generators::Base
   class_option :upload, :aliases => '-s', :type => :boolean, :default => true 
   class_option :download, :aliases => '-f', :type => :boolean, :default => true 
 
+  class_option :current_user, :aliases => '-cu', :type => :boolean, :default => true 
+
   class_option :admin, :aliases => '-a', :type => :boolean, :default => true 
 
   class_option :nests, :aliases => '-z', :type => :string, :default => "" 
@@ -48,6 +50,7 @@ class Rails::ItemGenerator < Rails::Generators::Base
     @one_enclosure = options[:one_image]
     @attachment = options[:attachment]
     @one_attachment = options[:one_attachment]
+    @current_user = options[:current_user]
 
     @attrs = []
     columns.each do |column|
@@ -57,8 +60,8 @@ class Rails::ItemGenerator < Rails::Generators::Base
     name = Time.now.strftime('%Y%m%d%H%M%S') + "_create_" + @mpu
     @relates   = options[:relates]
     @columns   = columns
-    template 'migration.template', "db/migrate/#{name}.rb", @mpc, @mpu, @relates, @columns, @one_enclosure, @one_attachment
-    template 'model.template', "app/models/#{@mu}.rb", @attrs, @mu, @mc, @mpc, @mpu, @enclosure, @one_enclosure, @attachment, @one_attachment, @relates
+    template 'migration.template', "db/migrate/#{name}.rb", @mpc, @mpu, @relates, @columns, @one_enclosure, @one_attachment, @current_user
+    template 'model.template', "app/models/#{@mu}.rb", @attrs, @mu, @mc, @mpc, @mpu, @enclosure, @one_enclosure, @attachment, @one_attachment, @relates, @current_user
   end
 
   def add_to_enclosure
@@ -166,6 +169,7 @@ class Rails::ItemGenerator < Rails::Generators::Base
     @scss = options[:scss]
     @upload   = options[:upload]
     @download = options[:download]
+    @current_user = options[:current_user]
     @admin = options[:admin]
     @nests = options[:nests]
     unless @nests.blank?
@@ -179,7 +183,7 @@ class Rails::ItemGenerator < Rails::Generators::Base
       @attrs << column.slice(/[^:]+/)
     end
 
-    template 'controller.template', "app/controllers/#{controller_name}_controller.rb", @attrs, @mu, @mc, @mpc, @mpu, @enclosure, @attachment, @one_enclosure, @one_attachment, @index, @new, @edit, @show, @fields, @upload, @download
+    template 'controller.template', "app/controllers/#{controller_name}_controller.rb", @attrs, @mu, @mc, @mpc, @mpu, @enclosure, @attachment, @one_enclosure, @one_attachment, @index, @new, @edit, @show, @fields, @upload, @download, @current_user
 
     if @index
       template 'index.template', "app/views/#{controller_name}/index.html.haml", @attrs, @mu, @mc, @mpc, @mpu, @enclosure, @attachment, @one_enclosure, @one_attachment, @upload, @download
