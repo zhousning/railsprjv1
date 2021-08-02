@@ -96,27 +96,17 @@ Rails.application.routes.draw do
 
   resources :selectors
  
-  resources :dogs do
+  resources :companies do
     get :download_append, :on => :member
     post :parse_excel, :on => :collection
     get :xls_download, :on => :collection
   end
-  resources :dogs do
+  resources :factories do
     get :download_append, :on => :member
     post :parse_excel, :on => :collection
     get :xls_download, :on => :collection
   end
-  resources :dogs do
-    get :download_append, :on => :member
-    post :parse_excel, :on => :collection
-    get :xls_download, :on => :collection
-  end
-  resources :dogs do
-    get :download_append, :on => :member
-    post :parse_excel, :on => :collection
-    get :xls_download, :on => :collection
-  end
-  resources :dogs do
+  resources :departments do
     get :download_append, :on => :member
     post :parse_excel, :on => :collection
     get :xls_download, :on => :collection

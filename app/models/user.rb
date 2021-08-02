@@ -12,7 +12,12 @@ class User < ActiveRecord::Base
   has_many :stocks
   has_many :retrievals
   has_many :projects
-  has_many :dogs
+
+  has_many :user_fcts, :dependent => :destroy
+  has_many :factories, :through => :user_fcts
+
+  has_many :user_depts, :dependent => :destroy
+  has_many :departments, :through => :user_depts
 
   belongs_to :role
 

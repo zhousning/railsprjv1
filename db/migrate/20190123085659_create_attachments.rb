@@ -4,6 +4,12 @@ class CreateAttachments < ActiveRecord::Migration
       t.timestamps null: false
 
       t.string :file,  null: false, default: ""
+      t.references :dog
+      t.references :dog
+      t.references :dog
+      t.references :dog
+      t.references :dog
+      t.references :dog
     end
   end
 end

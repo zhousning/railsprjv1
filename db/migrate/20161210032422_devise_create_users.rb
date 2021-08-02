@@ -42,6 +42,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       t.references :role
 
+      t.references :company
+
       t.timestamps null: false
     end
 

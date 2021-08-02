@@ -1,5 +1,11 @@
 class Attachment < ActiveRecord::Base
   mount_uploader :file, AttachmentUploader
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
 end
 
 

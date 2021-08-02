@@ -77,19 +77,20 @@ class TemplatesController < ApplicationController
     end
 
     cond += "-n " + @template.cn_name + " " + 
+
            "-i " + @template.image.to_s + " " +
-           "-d " + @template.attachment.to_s + " " +
-           "-x " + @template.index.to_s + " " +
-           "-w " + @template.new.to_s + " " +
-           "-e " + @template.edit.to_s + " " +
-           "-h " + @template.show.to_s + " " +
-           "-r " + @template.form.to_s + " " +
-           "-j " + @template.js.to_s + " " +
-           "-c " + @template.scss.to_s + " " +
-           "-s " + @template.upload.to_s + " " +
-           "-f " + @template.download.to_s + " " +
-           "-cu " + @template.current_user.to_s + " " +
-           "-a " + @template.admin.to_s + " "
+           @template.attachment.to_s + " " +
+           @template.index.to_s + " " +
+           @template.new.to_s + " " +
+           @template.edit.to_s + " " +
+           @template.show.to_s + " " +
+           @template.form.to_s + " " +
+           @template.js.to_s + " " +
+           @template.scss.to_s + " " +
+           @template.upload.to_s + " " +
+           @template.download.to_s + " " +
+           @template.current_user.to_s + " " +
+           @template.admin.to_s + " "
     
     unless @template.one_image.blank?
       cond += "-b " + @template.one_image.to_s + " "

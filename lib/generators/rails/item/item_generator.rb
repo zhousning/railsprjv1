@@ -15,28 +15,31 @@ class Rails::ItemGenerator < Rails::Generators::Base
 
   class_option :one_image, :aliases => '-b', :type => :array, :default => []
   class_option :one_attachment, :aliases => '-k', :type => :array, :default => [] 
-  class_option :image, :aliases => '-i', :type => :boolean, :default => false 
-  class_option :attachment, :aliases => '-d', :type => :boolean, :default => false 
-
-  class_option :index, :aliases => '-x', :type => :boolean, :default => true 
-  class_option :new, :aliases => '-w', :type => :boolean, :default => true 
-  class_option :edit, :aliases => '-e', :type => :boolean, :default => true 
-  class_option :show, :aliases => '-h', :type => :boolean, :default => true 
-  class_option :form, :aliases => '-r', :type => :boolean, :default => true 
-
-  class_option :js, :aliases => '-j', :type => :boolean, :default => true 
-  class_option :scss, :aliases => '-c', :type => :boolean, :default => true 
-
-  class_option :upload, :aliases => '-s', :type => :boolean, :default => true 
-  class_option :download, :aliases => '-f', :type => :boolean, :default => true 
-
-  class_option :current_user, :aliases => '-cu', :type => :boolean, :default => true 
-
-  class_option :admin, :aliases => '-a', :type => :boolean, :default => true 
 
   class_option :nests, :aliases => '-z', :type => :string, :default => "" 
   class_option :properties, :aliases => '-m', :type => :array, :default => []
   class_option :relates, :aliases => '-y', :type => :array, :default => []
+
+  class_option :flags, :aliases => '-i', :type => :array, :default => []
+
+  #0 class_option :image, :aliases => '-i', :type => :boolean, :default => true 
+  #1 class_option :attachment, :aliases => '-d', :type => :boolean, :default => false 
+
+  #2 class_option :index, :aliases => '-x', :type => :boolean, :default => true 
+  #3 class_option :new, :aliases => '-w', :type => :boolean, :default => true 
+  #4 class_option :edit, :aliases => '-e', :type => :boolean, :default => true 
+  #5 class_option :show, :aliases => '-h', :type => :boolean, :default => true 
+  #6 class_option :form, :aliases => '-r', :type => :boolean, :default => true 
+
+  #7 class_option :js, :aliases => '-j', :type => :boolean, :default => true 
+  #8 class_option :scss, :aliases => '-c', :type => :boolean, :default => true 
+
+  #9 class_option :upload, :aliases => '-s', :type => :boolean, :default => true 
+  #10 class_option :download, :aliases => '-f', :type => :boolean, :default => true 
+
+  #11 class_option :current_user, :aliases => '-cu', :type => :boolean, :default => true 
+
+  #12 class_option :admin, :aliases => '-a', :type => :boolean, :default => true 
 
   def generate_model
     #attributes = columns.join(" ")
@@ -46,11 +49,11 @@ class Rails::ItemGenerator < Rails::Generators::Base
     @mc = model.camelcase
     @mpc = model.pluralize.camelcase
     @mpu = model.pluralize.underscore
-    @enclosure = options[:image]
+    @enclosure = flag_boolean(options[:flags][0])
     @one_enclosure = options[:one_image]
-    @attachment = options[:attachment]
+    @attachment = flag_boolean(options[:flags][1])
     @one_attachment = options[:one_attachment]
-    @current_user = options[:current_user]
+    @current_user = flag_boolean(options[:flags][11])
 
     @attrs = []
     columns.each do |column|
@@ -65,7 +68,7 @@ class Rails::ItemGenerator < Rails::Generators::Base
   end
 
   def add_to_enclosure
-    @enclosure = options[:image]
+    @enclosure = flag_boolean(options[:flags][0])
     if @enclosure
       model_enclosure = "app/models/enclosure.rb"
       migrate_enclosure = "db/migrate/20190123085658_create_enclosures.rb"
@@ -84,7 +87,7 @@ class Rails::ItemGenerator < Rails::Generators::Base
   end
 
   def add_to_attachment
-    @attachment = options[:attachment]
+    @attachment = flag_boolean(options[:flags][1])
     if @attachment
       model_attachment = "app/models/attachment.rb"
       migrate_attachment = "db/migrate/20190123085659_create_attachments.rb"
@@ -115,10 +118,10 @@ class Rails::ItemGenerator < Rails::Generators::Base
 
   def generate_route
     @mpu = model.pluralize.underscore
-    @attachment = options[:attachment]
+    @attachment = flag_boolean(options[:flags][1])
     @one_attachment = options[:one_attachment]
-    @upload = options[:upload]
-    @download = options[:download]
+    @upload = flag_boolean(options[:flags][9])
+    @download = flag_boolean(options[:flags][10])
 
     flower = "resources :flower"
     route_attachment = "config/routes.rb"
@@ -156,22 +159,23 @@ class Rails::ItemGenerator < Rails::Generators::Base
     @mc = model.camelcase
     @mpc = model.pluralize.camelcase
     @mpu = model.pluralize.underscore
-    @enclosure = options[:image]
+    @enclosure = flag_boolean(options[:flags][0])
     @one_enclosure = options[:one_image]
-    @attachment = options[:attachment]
+    @attachment = flag_boolean(options[:flags][1])
     @one_attachment = options[:one_attachment]
-    @index = options[:index]
-    @new  = options[:new]
-    @edit = options[:edit]
-    @show = options[:show]
-    @form = options[:form]
-    @js   = options[:js]
-    @scss = options[:scss]
-    @upload   = options[:upload]
-    @download = options[:download]
-    @current_user = options[:current_user]
-    @admin = options[:admin]
+    @index = flag_boolean(options[:flags][2])
+    @new  = flag_boolean(options[:flags][3])
+    @edit = flag_boolean(options[:flags][4])
+    @show = flag_boolean(options[:flags][5])
+    @form = flag_boolean(options[:flags][6])
+    @js   = flag_boolean(options[:flags][7])
+    @scss = flag_boolean(options[:flags][8])
+    @upload   = flag_boolean(options[:flags][9])
+    @download = flag_boolean(options[:flags][10])
+    @current_user = flag_boolean(options[:flags][11])
+    @admin = flag_boolean(options[:flags][12])
     @nests = options[:nests]
+
     unless @nests.blank?
       @fields = JSON.parse(@nests)
     else
@@ -242,6 +246,10 @@ class Rails::ItemGenerator < Rails::Generators::Base
 
     def controller_name
       model.pluralize.underscore
+    end
+
+    def flag_boolean(flag)
+      flag == "true" ? true : false
     end
 
   #model_singularize = model.singularize.underscore

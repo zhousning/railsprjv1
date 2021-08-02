@@ -1,7 +1,7 @@
 ActiveAdmin.register User  do
 
   #permit_params  :phone, :password, :password_confirmation, :name, :identity, :alipay, :status, role_ids: []
-  permit_params  :phone, :name, :identity, :alipay, :status, role_ids: []
+  permit_params  :phone, :name, :password, :password_confirmation, :identity, :alipay, :status, role_ids: []
 
   actions :all, :except => [:destroy]
 
@@ -41,18 +41,26 @@ ActiveAdmin.register User  do
       f.created_at.strftime('%Y-%m-%d %H:%M:%S')
     end
     actions do
-      #link_to "分配角色", admin_assign_path
+      #link_to "修改密码", admin_change_password_path
     end
   end
+
+  #change_password do |f|
+  #  f.inputs "修改密码" do
+  #    f.input :password, :label => Setting.users.password 
+  #    f.input :password_confirmation, :label => Setting.users.password_confirmation 
+  #  end
+  #  f.actions
+  #end
 
   form do |f|
     f.inputs "详情" do
       f.input :phone, :label => Setting.users.phone 
-      #f.input :password, :label => Setting.users.password 
-      #f.input :password_confirmation, :value => "3423", :label => Setting.users.password_confirmation 
       f.input :name, :label => Setting.users.name 
-      f.input :identity, :label => Setting.users.identity 
-      f.input :alipay, :label => Setting.users.alipay 
+      #f.input :password, :label => Setting.users.password 
+      #f.input :password_confirmation, :label => Setting.users.password_confirmation 
+      #f.input :identity, :label => Setting.users.identity 
+      #f.input :alipay, :label => Setting.users.alipay 
       f.input :roles, :label => "角色分配", as: :check_boxes 
     end
     f.actions

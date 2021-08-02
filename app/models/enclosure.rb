@@ -10,6 +10,14 @@ class Enclosure < ActiveRecord::Base
   belongs_to :carousel
   belongs_to :ocr
 
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
+  belongs_to :dog
 end
 
 
